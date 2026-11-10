@@ -1,0 +1,49 @@
+model: models/yolov8s.pt
+source_dataset: train/datasets/flowers_reviewed_standard_v3
+dataset: train/datasets/flowers_standard_yolo_v3
+names:
+- peony_pot
+- orchid_pot
+- sunflower_pot
+- eucalyptus_pot
+display_names:
+- 芍药盆栽
+- 原兰花盆栽
+- 原向日葵盆栽
+- 桉树叶盆栽
+training:
+  epochs: 60
+  patience: 20
+  imgsz: 640
+  batch: 8
+  device: '0'
+  workers: 4
+  optimizer: AdamW
+  lr0: 0.001
+  lrf: 0.01
+  weight_decay: 0.0005
+  warmup_epochs: 3.0
+  seed: 42
+  deterministic: true
+  amp: false
+  freeze: null
+  hsv_h: 0.01
+  hsv_s: 0.2
+  hsv_v: 0.2
+  degrees: 12.0
+  translate: 0.1
+  scale: 0.5
+  perspective: 0.00015
+  fliplr: 0.5
+  flipud: 0.0
+  mosaic: 0.0
+  close_mosaic: 0
+  mixup: 0.0
+  copy_paste: 0.0
+  cache: false
+expected_images:
+  train: 320
+  val: 39
+source_manifest_sha256: 7fb8370caefb23e09700310af3cb1a49b27202b6cf10d730055e04245f5fe511
+workflow_prefix: standard_yolo_v3
+allow_reviewed_background_crops: true

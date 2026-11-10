@@ -1,0 +1,52 @@
+model: models/yolov8s-worldv2.pt
+data: train/datasets/flowers_clip_lily_chrysanthemum_v1/data.yaml
+partition_policy: same_setup_video_holdout
+project: train/runs
+name: flowers_clip_lily_chrysanthemum_v1
+prompts:
+- potted peony
+- potted lily
+- potted chrysanthemum
+- potted eucalyptus
+display_names:
+- 芍药
+- 百合（原兰花）
+- 菊花（原向日葵）
+- 桉树叶
+lora:
+  rank: 8
+  alpha: 16.0
+  dropout: 0.0
+  target_patterns:
+  - attn.gl
+  - attn.proj_conv.conv
+  - model.22.cv3
+  train_bias: none
+  freeze_clip: true
+  freeze_batchnorm: true
+training:
+  epochs: 60
+  imgsz: 640
+  batch: 8
+  device: '0'
+  workers: 4
+  optimizer: AdamW
+  lr0: 0.0001
+  patience: 15
+  seed: 42
+  amp: false
+  rect: false
+  save: true
+  exist_ok: false
+  hsv_h: 0.01
+  hsv_s: 0.2
+  hsv_v: 0.2
+  degrees: 0.0
+  translate: 0.05
+  scale: 0.15
+  fliplr: 0.5
+  flipud: 0.0
+  mosaic: 0.0
+  mixup: 0.0
+  copy_paste: 0.0
+  erasing: 0.0

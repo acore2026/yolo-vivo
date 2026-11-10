@@ -1,0 +1,102 @@
+{
+  "status": "formal_training_and_user_regression_completed_not_accepted",
+  "formal_training_executed": true,
+  "workflow": "train/workflows/standard_yolo_20261105_150113_747705",
+  "workflow_status": "completed",
+  "best_checkpoint": "/home/huawei/VIVO/yolo-vivo/train/workflows/standard_yolo_20261105_150113_747705/full/weights/best.pt",
+  "best_checkpoint_sha256": "09f6043815012c4c2b6a1cc22e9b23880a91439c0b437476f6ef1ebae4a6ebe2",
+  "validation_passes": false,
+  "user_test_output": "train/diagnostics/flower_user_test_20261105_standard_yolo",
+  "user_test_video_sample_passes": false,
+  "v3_preserved": true,
+  "deployed": false,
+  "preparation_snapshot": {
+    "status": "prepared_formal_training_blocked",
+    "formal_training_executed": false,
+    "cpu_smoke": "train/workflows/standard_yolo_20261105_145720_624625",
+    "cpu_smoke_status": "cpu_smoke_passed_not_trained_baseline",
+    "cpu_smoke_random_initialization": true,
+    "formal_dataset": "/home/huawei/VIVO/yolo-vivo/train/datasets/flowers_standard_yolo_v1/data.yaml",
+    "dataset_checks": {
+      "images": {
+        "train": 280,
+        "val": 39
+      },
+      "objects": {
+        "train": {
+          "2": 107,
+          "0": 124,
+          "1": 129,
+          "3": 113
+        },
+        "val": {
+          "2": 33,
+          "0": 32,
+          "3": 18,
+          "1": 10
+        }
+      },
+      "source_manifest_sha256": "e662355a8fa22ec1ba15dc24f5af846656e84d4ce6611df46464180171482255",
+      "source_video_isolated": true,
+      "independent_scene_split": false,
+      "review": "existing assistant_visual, not human acceptance",
+      "all_source_image_label_hashes": "PASS",
+      "test_included": false
+    },
+    "v3_classifier_sha256": "5a5a06ed1c401423072938a54d3c41427021093cfcb89cb98b4450dffb7bb322",
+    "v3_unchanged": true,
+    "compile": "PASS",
+    "blockers": [
+      "CUDA unavailable in assistant execution environment",
+      "Ordinary yolov8s.pt absent; official download failed connecting to proxy 127.0.0.1:7897"
+    ],
+    "next_command": "train/.venv/bin/python -u train/standard_yolo.py --run --fetch-weights",
+    "threshold_evaluation_smoke": "PASS on random smoke checkpoint; no accuracy claim",
+    "augmentation_preview_review": "assistant_visual: train_batch0.jpg only; not all generated variants"
+  },
+  "latest_inference_experiment": {
+    "resolution_report": "train/diagnostics/standard_yolo_resolution_v1/REPORT_CN.md",
+    "postprocess_point": "train/diagnostics/standard_yolo_postprocess_v1/operating_point.json",
+    "regression_report": "train/diagnostics/flower_user_test_20261105_standard_calibrated/COMPARISON_CN.md",
+    "validation_passes": true,
+    "regression_passes": false,
+    "replaces_previous": false,
+    "training_executed": false
+  },
+  "next_training_v2": {
+    "status": "formal_training_and_regression_completed_not_accepted",
+    "formal_training_executed": true,
+    "config": "train/configs/flowers_standard_yolo_v2.yaml",
+    "documentation": "train/STANDARD_YOLO_V2_CN.md",
+    "dataset": "train/datasets/flowers_standard_yolo_v2",
+    "new_train_images": 20,
+    "new_train_boxes": 49,
+    "train_images": 300,
+    "val_images": 39,
+    "cpu_smoke": "train/workflows/standard_yolo_v2_20261105_152852_622309",
+    "original_models_unchanged": true,
+    "next_command": "train/.venv/bin/python -u train/standard_yolo.py --config train/configs/flowers_standard_yolo_v2.yaml --run",
+    "workflow": "train/workflows/standard_yolo_v2_20261105_183741_203325",
+    "best_checkpoint": "/home/huawei/VIVO/yolo-vivo/train/workflows/standard_yolo_v2_20261105_183741_203325/full/weights/best.pt",
+    "best_checkpoint_sha256": "3617af2165f11cce96ae65e7c9b639078a38e1dbe3c958becd1b527dbfb3158a",
+    "validation_passes": true,
+    "user_video_regression_passes": false,
+    "flower3_regression_passes": false,
+    "report": "train/diagnostics/flower_user_test_20261105_standard_v2/COMPARISON_CN.md",
+    "deployed": false
+  },
+  "next_training_v3": {
+    "status": "prepared_background_pilot_cpu_smoke_passed_gpu_pending",
+    "formal_training_executed": false,
+    "positive_audit_images": 125,
+    "positive_audit_scope": "320px paired thumbnails; not full resolution",
+    "new_background_crops": 20,
+    "train_images": 320,
+    "val_images": 39,
+    "config": "train/configs/flowers_standard_yolo_v3.yaml",
+    "documentation": "train/STANDARD_YOLO_V3_CN.md",
+    "cpu_smoke": "train/workflows/standard_yolo_v3_20261105_185201_257551",
+    "deployed": false,
+    "next_command": "train/.venv/bin/python -u train/standard_yolo.py --config train/configs/flowers_standard_yolo_v3.yaml --run"
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "result": "PASS",
+  "device": "cpu",
+  "scope": "synthetic tensors only; no optimization or dataset training",
+  "checks": {
+    "linear": {
+      "zero_init": "PASS",
+      "merge_max_abs": 1.1920928955078125e-07,
+      "save_reload": "PASS"
+    },
+    "conv": {
+      "zero_init": "PASS",
+      "merge_max_abs": 6.556510925292969e-07,
+      "save_reload": "PASS"
+    },
+    "actual_model": {
+      "base_sha256": "03cad0f87262b635f2a10fc3a4feec2a8cf30220726048e0fd77016234ed769b",
+      "matched_modules": [
+        "model.12.attn.gl",
+        "model.12.attn.proj_conv.conv",
+        "model.15.attn.gl",
+        "model.15.attn.proj_conv.conv",
+        "model.18.attn.gl",
+        "model.18.attn.proj_conv.conv",
+        "model.21.attn.gl",
+        "model.21.attn.proj_conv.conv",
+        "model.22.cv3.0.0.conv",
+        "model.22.cv3.0.1.conv",
+        "model.22.cv3.0.2",
+        "model.22.cv3.1.0.conv",
+        "model.22.cv3.1.1.conv",
+        "model.22.cv3.1.2",
+        "model.22.cv3.2.0.conv",
+        "model.22.cv3.2.1.conv",
+        "model.22.cv3.2.2"
+      ],
+      "trainable_parameters": 180736,
+      "total_parameters": 12940616,
+      "zero_init_exact": "PASS",
+      "merge_max_abs": 4.9591064453125e-05,
+      "adapter_artifact_reload_exact": "PASS",
+      "base_file_unchanged": true
+    }
+  },
+  "not_tested": [
+    "full trainer loop",
+    "optimizer step",
+    "CLIP prompts",
+    "GPU",
+    "resume",
+    "accuracy"
+  ]
+}

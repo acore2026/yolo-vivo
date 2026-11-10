@@ -1,0 +1,66 @@
+<!doctype html><html lang="zh"><meta charset="utf-8"><title>模拟救护车实时检测</title>
+<style>body{font-family:system-ui,sans-serif;padding:8px}video,img{display:block;width:100%;max-width:640px;height:auto;background:#111827}[hidden]{display:none!important}button,input{margin:4px 2px;padding:7px}#state,pre{white-space:pre-wrap;overflow-wrap:anywhere}</style>
+<body><h2>模拟救护车实时检测</h2><p>点击启动检测，再连接画面。</p>
+<button id="startMonitor">启动检测</button><button id="stopMonitor">停止检测</button><pre id="detections"></pre>
+<input id="token" type="password" placeholder="接口 Token（如启用）">
+<button id="playHttp">连接画面（HTTP）</button><button id="play">连接 WebRTC</button><button id="stop">断开画面</button>
+<p id="state">未连接</p><img id="preview" width="640" height="480" alt="实时检测画面" hidden><video id="video" width="640" height="480" autoplay playsinline muted controls hidden></video>
+<script>
+let pc, peerId, generation=0, controller, objectUrl;
+const state=document.querySelector('#state'), preview=document.querySelector('#preview'), video=document.querySelector('#video');
+const headers=()=>({'Content-Type':'application/json',...(document.querySelector('#token').value?{'Authorization':'Bearer '+document.querySelector('#token').value}:{})});
+for(const action of ['start','stop']) document.querySelector('#'+action+'Monitor').onclick=async()=>{
+  try {const r=await fetch('/v1/monitor/'+action,{method:'POST',headers:headers()});const body=await r.text();if(!r.ok)throw Error(body);state.textContent=body;}
+  catch(e){state.textContent='检测控制失败：'+e.message;}
+};
+setInterval(async()=>{try{const r=await fetch('/v1/detections',{headers:headers()});if(r.ok){const d=await r.json();document.querySelector('#detections').textContent=d.fresh?('检测到 '+d.detections.length+' 辆机器车'):'暂无新鲜检测结果';}}catch(e){}},300);
+function stop(){
+  generation++;if(controller)controller.abort();controller=null;
+  const oldPc=pc, oldPeer=peerId;pc=null;peerId=null;
+  if(oldPc){oldPc.onconnectionstatechange=null;oldPc.close();}
+  if(oldPeer)fetch('/v1/webrtc/'+oldPeer,{method:'DELETE',headers:headers()}).catch(()=>{});
+  video.srcObject=null;video.hidden=true;preview.hidden=true;preview.removeAttribute('src');
+  if(objectUrl)URL.revokeObjectURL(objectUrl);objectUrl=null;
+}
+document.querySelector('#stop').onclick=()=>{stop();state.textContent='已断开';};
+document.querySelector('#playHttp').onclick=async()=>{
+  stop();const current=generation;state.textContent='正在连接画面…';
+  while(current===generation){
+    const abort=new AbortController();controller=abort;
+    const timeout=setTimeout(()=>abort.abort(),5000);
+    try{
+      const r=await fetch('/v1/video/frame.jpg',{headers:headers(),cache:'no-store',signal:abort.signal});
+      if(!r.ok)throw Error('HTTP '+r.status+'：'+await r.text());
+      const blob=await r.blob();if(current!==generation)break;
+      const next=URL.createObjectURL(blob), previous=objectUrl;objectUrl=next;
+      preview.src=next;preview.hidden=false;if(previous)URL.revokeObjectURL(previous);
+      state.textContent='画面已连接（HTTP，约 10 帧/秒）';
+    }catch(e){
+      if(current!==generation)break;
+      preview.hidden=true;
+      state.textContent='画面暂不可用，将自动重试：'+e.message;
+    }finally{clearTimeout(timeout);}
+    if(current===generation)await new Promise(resolve=>setTimeout(resolve,100));
+  }
+};
+document.querySelector('#play').onclick=async()=>{
+  stop();const current=generation;const connection=new RTCPeerConnection({iceServers:[]});pc=connection;
+  try{
+    state.textContent='正在连接 WebRTC…';connection.addTransceiver('video',{direction:'recvonly'});
+    connection.ontrack=e=>{if(current===generation){video.hidden=false;video.srcObject=new MediaStream([e.track]);video.play().catch(e=>state.textContent='请点击视频播放按钮：'+e.message);}};
+    connection.onconnectionstatechange=()=>{if(current===generation)state.textContent='WebRTC：'+connection.connectionState+'。无法显示时可切换 HTTP 画面。';};
+    await connection.setLocalDescription(await connection.createOffer());
+    if(connection.iceGatheringState!=='complete')await new Promise((resolve,reject)=>{
+      const done=()=>{if(connection.iceGatheringState==='complete'){clearTimeout(timer);connection.removeEventListener('icegatheringstatechange',done);resolve();}};
+      const timer=setTimeout(()=>{connection.removeEventListener('icegatheringstatechange',done);reject(Error('ICE 收集超时'));},10000);
+      connection.addEventListener('icegatheringstatechange',done);done();
+    });
+    if(current!==generation)return;
+    const r=await fetch('/v1/webrtc/offer',{method:'POST',headers:headers(),body:JSON.stringify(connection.localDescription)});
+    if(!r.ok)throw Error(await r.text());const answer=await r.json();
+    if(current!==generation){fetch('/v1/webrtc/'+answer.peer_id,{method:'DELETE',headers:headers()}).catch(()=>{});return;}
+    peerId=answer.peer_id;await connection.setRemoteDescription({type:answer.type,sdp:answer.sdp});
+  }catch(e){if(current===generation){stop();state.textContent='WebRTC 连接失败：'+e.message+'。请尝试连接画面（HTTP）。';}}
+};
+window.addEventListener('pagehide',stop);
+</script></body></html>

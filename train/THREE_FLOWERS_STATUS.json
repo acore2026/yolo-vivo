@@ -1,0 +1,46 @@
+{
+  "images": {
+    "train": 268,
+    "val": 39
+  },
+  "objects": {
+    "val": {
+      "2": 33,
+      "0": 32,
+      "1": 10
+    },
+    "train": {
+      "2": 117,
+      "0": 137,
+      "1": 143
+    }
+  },
+  "negative_train": 20,
+  "source_labels_unchanged": true,
+  "retained_coordinates_unchanged": true,
+  "removed_class_absent": true,
+  "video_split_isolated": true,
+  "independent_scene_split": false,
+  "base_sha256": "03cad0f87262b635f2a10fc3a4feec2a8cf30220726048e0fd77016234ed769b",
+  "retained_adapter_sha256": "8e4fe9f463c08d5dc9748d0c7735792e0092187b16cd54c723143c245cff76a3",
+  "retained_classifier_sha256": "5a5a06ed1c401423072938a54d3c41427021093cfcb89cb98b4450dffb7bb322",
+  "formal_gpu_training_executed": true,
+  "cuda_available": false,
+  "detector_cpu_smoke": "train/runs/three_flowers_cpu_smoke_20261109",
+  "classifier_cpu_smoke": "train/runs/three_flowers_cascade_cpu_smoke_20261109",
+  "test2_reviewed_frames": 12,
+  "test2_reviewed_objects": 35,
+  "status": "formal_training_tests_completed_not_accepted",
+  "next_command": "train/.venv/bin/python -u train/run_three_flower_workflow.py",
+  "documentation": "train/THREE_FLOWERS_CN.md",
+  "inference_smoke": "PASS on val image",
+  "reject_class_filter": "PASS",
+  "non_target_as_flower_counts_false_positive": "PASS",
+  "compile": "PASS",
+  "workflow": "train/workflows/three_flowers_20261109_160053_774018",
+  "best_adapter": "/home/huawei/VIVO/yolo-vivo/train/runs/three_flowers_20261109_160053_774018_full/weights/adapter_best.pt",
+  "classifier": "/home/huawei/VIVO/yolo-vivo/train/workflows/three_flowers_20261109_160053_774018/classifier",
+  "test_output": "/home/huawei/VIVO/yolo-vivo/train/workflows/three_flowers_20261109_160053_774018/test",
+  "all_classes_above_90": false,
+  "deployed": false
+}

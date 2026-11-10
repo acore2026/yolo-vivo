@@ -1,0 +1,36 @@
+{
+  "method": "new venv, independent local package copies (not shared site-packages); no network",
+  "base_source": "/home/huawei/VDF/yolo-pose/.venv",
+  "extra_packages": [
+    {
+      "name": "clip",
+      "version": "1.0",
+      "files_copied": 14,
+      "source": "/home/huawei/compute_network/yolo/.venv/lib/python3.12/site-packages"
+    },
+    {
+      "name": "ftfy",
+      "version": "6.3.1",
+      "files_copied": 17,
+      "source": "/home/huawei/compute_network/yolo/.venv/lib/python3.12/site-packages"
+    },
+    {
+      "name": "regex",
+      "version": "2026.9.29",
+      "files_copied": 12,
+      "source": "/home/huawei/compute_network/yolo/.venv/lib/python3.12/site-packages"
+    },
+    {
+      "name": "tqdm",
+      "version": "4.70.1",
+      "files_copied": 40,
+      "source": "/home/huawei/compute_network/yolo/.venv/lib/python3.12/site-packages"
+    },
+    {
+      "name": "wcwidth",
+      "version": "0.9.2",
+      "files_copied": 58,
+      "source": "/home/huawei/compute_network/yolo/.venv/lib/python3.12/site-packages"
+    }
+  ]
+}

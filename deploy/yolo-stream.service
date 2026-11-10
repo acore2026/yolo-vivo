@@ -1,0 +1,16 @@
+[Unit]
+Description=YOLO bidirectional frame service
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/huawei/VIVO/yolo-vivo
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/home/huawei/VIVO/yolo-vivo/train/.venv/bin/python -m service.stream_app --host 127.0.0.1 --port 8767
+Restart=on-failure
+RestartSec=3
+TimeoutStopSec=10
+KillMode=control-group
+
+[Install]
+WantedBy=default.target

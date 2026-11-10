@@ -1,0 +1,7 @@
+# Observed versions only; not a validated install lock. Do not install into service env without approval.
+ultralytics==8.4.183
+torch==2.14.1
+torchvision==0.29.1
+numpy==2.5.4
+# PyYAML, Pillow: present; see environment report.
+# OpenAI CLIP package and ViT-B/32 weights: missing/unverified; prepare after approval.

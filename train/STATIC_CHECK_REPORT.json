@@ -1,0 +1,31 @@
+{
+  "phase": "scripts and static checks only",
+  "checks": {
+    "train/check_env.py": "syntax PASS",
+    "train/common.py": "syntax PASS",
+    "train/evaluate.py": "syntax PASS",
+    "train/export.py": "syntax PASS",
+    "train/lora.py": "syntax PASS",
+    "train/model_io.py": "syntax PASS",
+    "train/predict.py": "syntax PASS",
+    "train/prepare_data.py": "syntax PASS",
+    "train/train.py": "syntax PASS",
+    "train/trainer.py": "syntax PASS",
+    "prepare_data.py --help": "PASS; no framework/model load",
+    "train.py --help": "PASS; no framework/model load",
+    "evaluate.py --help": "PASS; no framework/model load",
+    "predict.py --help": "PASS; no framework/model load",
+    "export.py --help": "PASS; no framework/model load"
+  },
+  "manifest_check": "399 accepted, one review group; hashes and boxes passed",
+  "training_readiness": "BLOCKED: no independent validation group; CLIP unavailable; GPU NVML blocked",
+  "not_executed": [
+    "install",
+    "augmentation",
+    "training",
+    "inference",
+    "runtime LoRA numerical tests",
+    "resume"
+  ],
+  "base_sha256": "03cad0f87262b635f2a10fc3a4feec2a8cf30220726048e0fd77016234ed769b"
+}

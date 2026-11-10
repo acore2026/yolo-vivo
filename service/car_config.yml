@@ -1,0 +1,8 @@
+model: models/robot_car.pt
+source: /dev/video10
+device: "0"
+host: 127.0.0.1
+port: 18767
+camera_id: hospital-camera
+confidence: 0.25
+ice_url: []

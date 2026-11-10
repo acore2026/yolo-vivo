@@ -1,0 +1,21 @@
+{
+  "python": "/home/huawei/VIVO/yolo-vivo/train/.venv/bin/python",
+  "prefix": "/home/huawei/VIVO/yolo-vivo/train/.venv",
+  "torch": "2.14.1+cu130",
+  "torch_cuda_build": "13.0",
+  "ultralytics": "8.4.183",
+  "clip": "1.0",
+  "cuda_available_in_tool_environment": false,
+  "cuda_devices_in_tool_environment": 0,
+  "text_encoder_cpu": {
+    "result": "PASS",
+    "shape": [
+      4,
+      512
+    ],
+    "finite": true
+  },
+  "trainer_import": "PASS",
+  "dependency_check": "uv pip check: all 86 packages compatible",
+  "training_started": false
+}
