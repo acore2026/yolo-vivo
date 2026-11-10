@@ -39,9 +39,15 @@ def candidates(det,enc,pre,head,im,device):
 def load(folder,device):
  payload=torch.load(folder/'classifier.pt',map_location='cpu',weights_only=True)
  assert payload['prompts']==PROMPTS and payload['reject_class']==3 and payload['encoder_sha256']==CLIP_SHA256
- assert sha(Path(payload['adapter']))==payload['detector_adapter_sha256']
+ adapter=Path(payload['adapter'])
+ # Checkpoints historically embed the source computer's absolute path.
+ if adapter.is_absolute() and 'train/runs/' in adapter.as_posix():
+  adapter=ROOT/'train/runs'/adapter.as_posix().split('train/runs/',1)[1]
+ elif not adapter.is_absolute():
+  adapter=ROOT/adapter
+ assert sha(adapter)==payload['detector_adapter_sha256']
  head=torch.nn.Linear(512,4);head.load_state_dict(payload['head']);head.eval();enc,pre=encoder()
- det=load_model(ROOT/'models/yolov8s-worldv2.pt',Path(payload['adapter']));det.set_classes(PROMPTS)
+ det=load_model(ROOT/'models/yolov8s-worldv2.pt',adapter);det.set_classes(PROMPTS)
  return det,enc,pre,head
 
 def train(a):

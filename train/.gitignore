@@ -7,3 +7,20 @@ predictions/
 exports/
 datasets/
 workflows/
+
+# Retained three-flower deployment assets only
+!workflows/
+workflows/*
+!workflows/three_flowers_20261109_160053_774018/
+workflows/three_flowers_20261109_160053_774018/*
+!workflows/three_flowers_20261109_160053_774018/classifier/
+workflows/three_flowers_20261109_160053_774018/classifier/*
+!workflows/three_flowers_20261109_160053_774018/classifier/classifier.pt
+!workflows/three_flowers_20261109_160053_774018/classifier/operating_point.json
+!runs/
+runs/*
+!runs/three_flowers_20261109_160053_774018_full/
+runs/three_flowers_20261109_160053_774018_full/*
+!runs/three_flowers_20261109_160053_774018_full/weights/
+runs/three_flowers_20261109_160053_774018_full/weights/*
+!runs/three_flowers_20261109_160053_774018_full/weights/adapter_best.pt

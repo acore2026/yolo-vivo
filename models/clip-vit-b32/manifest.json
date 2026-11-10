@@ -1,0 +1,36 @@
+{
+  "sha256": "40d365715913c9da98579312b702a82c18be219cc2a73407c4526f58eba950af",
+  "size": 353976522,
+  "parts": [
+    {
+      "file": "ViT-B-32.pt.part00",
+      "size": 67108864,
+      "sha256": "da52a29556c25ceef60c185e3e19bb6cd52d3397ac3a6440159354af5771fb35"
+    },
+    {
+      "file": "ViT-B-32.pt.part01",
+      "size": 67108864,
+      "sha256": "6280e4b283e96d7d0d47189985049cdab564ba339e97f9cc0037418faa81de5a"
+    },
+    {
+      "file": "ViT-B-32.pt.part02",
+      "size": 67108864,
+      "sha256": "41495cb4ad0671c4fa965bd7ff598ca733211669b4713ce1c9bd5e4fb539c2f3"
+    },
+    {
+      "file": "ViT-B-32.pt.part03",
+      "size": 67108864,
+      "sha256": "a2aaebd39430521a389826c7183cbef37d12ddcdd4ddd5077f0924c96af218cb"
+    },
+    {
+      "file": "ViT-B-32.pt.part04",
+      "size": 67108864,
+      "sha256": "de4854fce6df328741a3dad45cabba1f91d4907d9c386524b9496c95857848ee"
+    },
+    {
+      "file": "ViT-B-32.pt.part05",
+      "size": 18432202,
+      "sha256": "758ec89dbe6800e84de94c41963e1cc2ee146f9a6e3b2037d3b7ec330bffac17"
+    }
+  ]
+}

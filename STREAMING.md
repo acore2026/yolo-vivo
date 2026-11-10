@@ -182,3 +182,20 @@ train/.venv/bin/python scripts/probe_stream_service.py --url http://127.0.0.1:87
   不是手机端到端时延，也不是实拍复杂场景或持续运行的性能承诺。
 - 测试连接已关闭，活动会话归零。测试用 SSH 通道在完成后关闭；pc-17 服务保持运行。
 - 生产 sandbox 和手机配置没有切换，下一步由 sandbox 适配器使用上述协议接入。
+
+## 在新电脑恢复三类花卉模型
+
+仓库包含选定的三类分类器、operating_point.json、LoRA adapter 和基础模型。
+CLIP ViT-B/32 原文件约 338 MiB，超过 GitHub 普通文件限制，因此保存为
+`models/clip-vit-b32/` 下的 6 个分块（每块最多 64 MiB）。不需要 Git LFS。
+克隆/下载完整仓库后，先执行：
+
+```bash
+python3 scripts/restore_flower_weights.py
+```
+
+脚本校验分块及完整文件 SHA256，并原子写入
+`train/.cache/weights/clip/ViT-B-32.pt`；已存在且校验通过时不重复写入。
+随后按本文安装依赖并启动服务。LoRA 的历史绝对路径会映射到当前项目内的
+`train/runs/three_flowers_20261109_160053_774018_full/weights/adapter_best.pt`。
+训练视频、数据集、其余训练结果和虚拟环境仍不提交。

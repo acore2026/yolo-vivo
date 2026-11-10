@@ -1,0 +1,36 @@
+{
+  "detector_conf": 0.05,
+  "classifier_conf": 0.7,
+  "nms_iou": 0.5,
+  "stats": [
+    {
+      "class_id": 0,
+      "tp": 31,
+      "fp": 0,
+      "fn": 1,
+      "precision": 1.0,
+      "recall": 0.96875
+    },
+    {
+      "class_id": 1,
+      "tp": 9,
+      "fp": 0,
+      "fn": 1,
+      "precision": 1.0,
+      "recall": 0.9
+    },
+    {
+      "class_id": 2,
+      "tp": 33,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    }
+  ],
+  "minimum_pr": 0.9,
+  "macro_f1": 0.9771651350598719,
+  "classifier_sha256": "e4ee07981f5f50af67665310484a8e45987c8aebbc2bb4e02931757c55efc1c6",
+  "passes": false,
+  "scope": "development val only; not independent acceptance"
+}
