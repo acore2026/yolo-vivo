@@ -1,12 +1,12 @@
 # Sandbox 双向视频帧接口
 
 本入口为 `python -m service.stream_app`，独立于现有 `service.car_app`。
-默认处理器为原样回传，**目前不加载模型，也不使用 GPU 推理**。传输层已预留模型接口，
-后续仅替换处理器即可。原摄像头服务、权重、训练代码及前端均未改动。
+默认处理器已接入三类花卉检测、置信度和逐字介绍框。新电脑部署请先读
+[HANDOFF_NEW_PC_CN.md](HANDOFF_NEW_PC_CN.md)，恢复权重并核对环境。
 
 链路：服务器 sandbox 解码帧 → JPEG / WebSocket → pc-17 处理器 → JPEG / WebSocket
 → sandbox 恢复原时间戳并编码为手机及前端使用的视频轨道。
-当前完成 pc-17 服务和参考客户端；生产 sandbox 尚需接入客户端。
+本仓库包含 YOLO 服务和参考客户端；云端生产 sandbox 的适配器及配置需在其部署仓库核对。
 
 ## 运行
 
@@ -49,7 +49,7 @@ SSH 通道断开时，客户端需重建连接；不要把 `pc-17` 的 SSH 地�
 ## HTTP / WebSocket
 
 - `GET /health/live`：进程存活、配置、当前会话数量。
-- `GET /health/ready`：传输服务就绪；不代表模型预热完成或有新鲜视频。
+- `GET /health/ready`：默认处理器的模型加载、预热成功后就绪；不代表有新鲜视频。
 - `GET /v1/streams`：活动／清理中的会话、实际接收／输出／丢弃帧数、输出新鲜度、错误。
 - `GET /v1/streams/{stream_id}/ws`：双向 WebSocket，一条连接对应一路设备。
 
@@ -93,7 +93,7 @@ SSH 通道断开时，客户端需重建连接；不要把 `pc-17` 的 SSH 地�
 成功结果仍为同格式二进制消息，JSON 头示例：
 
 ```json
-{"version":1,"type":"result","stream_id":"device-control","session_id":"服务端生成","frame_id":42,"codec":"jpeg","width":1280,"height":720,"processor":"passthrough","pts":126000,"time_base":[1,90000],"processing_ms":0.01,"server_total_ms":8.2,"queue_ms":0.3}
+{"version":1,"type":"result","stream_id":"device-control","session_id":"服务端生成","frame_id":42,"codec":"jpeg","width":1280,"height":720,"processor":"three_flowers_introductions","pts":126000,"time_base":[1,90000],"processing_ms":0.01,"server_total_ms":8.2,"queue_ms":0.3}
 ```
 
 - JPEG 为处理后的画面，宽高与输入一致；若模型按 640 推理，应把框映射回原画面后绘制。
@@ -109,8 +109,8 @@ SSH 通道断开时，客户端需重建连接；不要把 `pc-17` 的 SSH 地�
 等待超过 500 ms 的帧直接丢弃，所以连续推送时不保证每个 frame_id 都有结果。
 要获得每帧响应，请按参考客户端等待响应后再发送。
 
-默认处理超时 2 秒（含模型初始化、解码、编码），发送超时 2 秒，15 秒没有帧即关闭会话。
-首次模型加载较慢时用 `--process-timeout` 调整（最高 60 秒），或在工厂里返回已预热模型的会话包装器。
+默认处理超时 2 秒（含等待共享模型、解码、推理、绘制、编码），发送超时 2 秒，15 秒没有帧即关闭会话。
+默认模型在监听端口前完成加载预热，不计入单帧超时。慢机或多路负载需实测后调整 `--process-timeout`（最高60秒）。
 调整时也应使 `--idle-timeout` 大于最慢处理时间，客户端的响应超时应留出网络及服务端处理时间。
 
 失败尽可能先返回文本 JSON，再关闭连接：

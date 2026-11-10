@@ -1,3 +1,5 @@
+新电脑部署与 Sandbox 对接：[交接文档](HANDOFF_NEW_PC_CN.md)。
+
 # yolo-vivo
 
 独立的模拟救护车机器车实时检测服务。服务从摄像头或视频读取画面，使用 `models/robot_car.pt` 检测单类 `ambulance_robot_car`，通过 HTTP、SSE 和 WebRTC 提供实时结果及带框视频。
